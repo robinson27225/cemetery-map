@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WikiTree Cemetery Plot Map</title>
+  <link rel="stylesheet" href="lib/leaflet/leaflet.css">
+  <link rel="stylesheet" href="lib/markercluster/MarkerCluster.css">
+  <link rel="stylesheet" href="lib/markercluster/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="bar">
+    <button id="toggle-side" class="icon-btn" aria-label="Show or hide the list" aria-expanded="true">☰</button>
+    <div class="title">
+      <h1 id="cem-name">Cemetery Plot Map</h1>
+      <p id="cem-sub">WikiTree · load a cemetery or import your list</p>
+      <p id="cem-links" class="links"></p>
+    </div>
+    <div class="actions">
+      <button id="btn-pick">Find a cemetery…</button>
+      <button id="btn-import">Import data</button>
+      <button id="btn-overlay">Plot map overlay</button>
+      <button id="btn-export">Export &amp; share</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="side" aria-label="Graves">
+      <div class="search">
+        <input id="q" type="search" placeholder="Search name, WikiTree ID, memorial or FamilySearch ID" autocomplete="off" aria-label="Search graves">
+        <label class="inline">List by
+          <select id="list-by">
+            <option value="people">People</option>
+            <option value="monuments">Monuments (headstones)</option>
+          </select>
+        </label>
+        <label class="inline" id="label-by-row" hidden>Label stones by
+          <select id="label-by">
+            <option value="auto">Plot, else monument or reference</option>
+            <option value="plot">Plot</option>
+            <option value="monument">Monument</option>
+            <option value="reference">Reference</option>
+          </select>
+        </label>
+        <label class="inline">Show
+          <select id="filter">
+            <option value="all">Everyone</option>
+            <option value="needs">Needs a location</option>
+            <option value="mapped">On the map</option>
+            <option value="noid">Needs WikiTree ID</option>
+          </select>
+        </label>
+        <label class="inline">Colour by
+          <select id="color-by">
+            <option value="people">People per headstone</option>
+            <option value="links">Linked records</option>
+          </select>
+        </label>
+      </div>
+      <p id="count" class="muted" aria-live="polite"></p>
+      <div id="pending" class="pending" hidden>
+        <span id="pending-text"></span>
+        <button type="button" id="btn-publish">Publish…</button>
+        <button type="button" id="btn-discard" class="secondary">Discard</button>
+      </div>
+      <ul id="results" class="results"></ul>
+      <details id="report" class="report" hidden>
+        <summary id="report-summary"></summary>
+        <ul id="report-list"></ul>
+      </details>
+    </aside>
+
+    <main>
+      <div id="map" role="application" aria-label="Cemetery map"></div>
+      <section id="detail" class="detail" hidden aria-live="polite"></section>
+      <div id="status" class="status" role="status" hidden></div>
+    </main>
+  </div>
+
+  <dialog id="dlg-pick" class="wide">
+    <form method="dialog">
+      <h2>Find a cemetery</h2>
+      <label>Search by name or town <input id="pk-q" type="search" placeholder="e.g. Fairview Presbyterian, or Raton" autocomplete="off"></label>
+      <nav id="pk-crumbs" class="crumbs" aria-label="Place"></nav>
+      <input id="pk-filter" type="search" class="pk-filter" placeholder="Filter this list" aria-label="Filter this list" hidden>
+      <p id="pk-msg" class="muted" aria-live="polite"></p>
+      <ul id="pk-list" class="pk-list"></ul>
+      <p id="pk-foot" class="muted"></p>
+      <menu><button value="close" formnovalidate class="secondary">Close</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-import">
+    <form method="dialog" id="form-import">
+      <h2>Import graves</h2>
+      <p class="muted">Paste rows copied from your spreadsheet, or choose a .tsv/.csv file. Needed columns: <b>Long</b> and <b>Lat</b>, and either a <b>WikiTree ID</b> or names. Optional: FindAGrave, FamilySearch, Image link (a web address, WikiTree or anywhere else), Given Names, Surname, Maiden, Birth, Death, Section, Plot, Monument (the heading on the stone), Reference, Notes. A row with names but no WikiTree ID is kept as a burial that can be given its ID later. People who share a headstone share its Long, Lat and image.</p>
+      <div class="grid2">
+        <label>Cemetery name <input id="imp-name" required placeholder="Fairview Presbyterian Cemetery"></label>
+        <label>Location <input id="imp-loc" placeholder="Raton, Colfax, New Mexico, USA"></label>
+        <label>Short ID (for the link) <input id="imp-id" pattern="[a-z0-9\-]+" placeholder="fairview-raton-nm"></label>
+        <label>WikiTree Space page title <input id="imp-space" placeholder="Space:Fairview_Presbyterian_Cemetery_Raton_NM_USA"></label>
+      </div>
+      <label>WikiTree category (lists everyone buried there) <input id="imp-cat" placeholder="Category:Fairview_Presbyterian_Cemetery,_Raton,_New_Mexico"></label>
+      <label>Plot-map table page title (optional) <input id="imp-table" placeholder="Fairview Presbyterian Cemetery Raton NM USA Plot Map Table"></label>
+      <p><button type="button" id="imp-fetch" class="link-btn">Read the table from that page</button> <span class="muted">(only works when this app is served from wikitree.com)</span></p>
+      <label>File <input id="imp-file" type="file" accept=".tsv,.csv,.txt,text/tab-separated-values,text/csv"></label>
+      <label>…or paste <textarea id="imp-text" rows="9" spellcheck="false" placeholder="WikiTree ID,FindAGrave,FamilySearch,Long,Lat,Headstone photo,Given Names,Surname,Maiden,Birth,Death,Plot,Notes"></textarea></label>
+      <p><button type="button" id="imp-sample" class="link-btn">Fill in the Fairview, Raton sample</button></p>
+      <menu>
+        <button value="cancel" formnovalidate class="secondary">Cancel</button>
+        <button id="imp-go" value="default">Plot on map</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-publish">
+    <form method="dialog">
+      <h2>Publish changes to WikiTree</h2>
+      <p class="muted" id="pub-intro"></p>
+      <ul id="pub-changes" class="changes"></ul>
+      <div id="pub-std">
+        <h3>Updated table</h3>
+        <textarea id="pub-table" rows="8" readonly></textarea>
+        <p class="pub-actions"><button type="button" id="pub-copy">Copy table</button>
+          <a id="pub-open" target="_blank" rel="noopener noreferrer">Open the Space page editor</a></p>
+        <ol class="steps">
+          <li>Copy the table.</li>
+          <li>Open the Space page editor, select the existing table (from <code>{|</code> to <code>|}</code>) and paste over it.</li>
+          <li id="pub-cat-step" hidden>Make sure the page is in the cemetery's WikiTree category and in the Plotting Pages category. That is how the map finds it, and how the cemetery shows up as a ready-made map. Add these lines to the page: <code id="pub-cat"></code></li>
+        <li>Save the page. Reload this map afterwards; changes that are on the page stop showing as unpublished.</li>
+        </ol>
+      </div>
+      <div id="pub-external" hidden>
+        <h3>Rows on other pages</h3>
+        <p class="muted">These profiles are listed on other Space pages, which keep their own layout. Change their rows there by hand.</p>
+        <ul id="pub-external-list" class="changes"></ul>
+      </div>
+      <menu><button value="close" formnovalidate>Close</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-export">
+    <form method="dialog">
+      <h2>Export &amp; share</h2>
+      <p class="muted">Put the cemetery's data on a WikiTree Space page. Everyone can then open it in this app, and it is listed under Ready-made maps.</p>
+      <h3>1 · Plot-map table for the Space page</h3>
+      <p class="muted">Create the page, or edit the existing one, and paste this as its table. <a id="ex-open" target="_blank" rel="noopener noreferrer" hidden>Open the Space page editor</a></p>
+      <textarea id="ex-table" rows="6" readonly></textarea>
+      <h3>2 · Categories the page must be in</h3>
+      <p class="muted" id="ex-cat-note">Add both to the page. The cemetery's category is how the map finds the page's data, and Plotting Pages is how the app learns that the cemetery has a map.</p>
+      <textarea id="ex-cat" rows="2" readonly></textarea>
+      <h3>3 · Permanent link</h3>
+      <label>a. Link <input id="ex-url" readonly></label>
+      <label>b. WikiTree markup <input id="ex-markup" readonly></label>
+      <details class="more">
+        <summary>Cemetery file (snapshot and overlay)</summary>
+        <p class="muted">For the person who looks after this app's folder on the apps server: a saved copy, used when WikiTree can't be read, which also keeps the map overlay. It goes in <code>cemeteries/</code>. It is not needed for the cemetery to be found.</p>
+        <p><button type="button" id="ex-json">Download <span id="ex-json-name">cemetery.json</span></button></p>
+      </details>
+      <details class="more">
+        <summary>Index entry</summary>
+        <p class="muted">For the person who looks after this app's folder on the apps server: an entry for <code>cemeteries/index.json</code>. Not needed for a cemetery whose plot-map pages are in its category and in Plotting Pages, which is listed automatically.</p>
+        <textarea id="ex-index" rows="7" readonly></textarea>
+      </details>
+      <menu><button value="close" formnovalidate>Close</button></menu>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-overlay">
+    <form method="dialog">
+      <h2>Plot map overlay</h2>
+      <p class="muted">Lay a scanned cemetery plot map over the satellite view, and/or add section outlines and landmarks. Both are optional and saved in the cemetery file.</p>
+      <h3>Plot map image</h3>
+      <label>Image file <input id="ov-file" type="file" accept="image/png,image/jpeg,image/webp"></label>
+      <label>…or image URL <input id="ov-url" type="url" placeholder="https://…/plot-map.png"></label>
+      <div class="grid4">
+        <label>South lat <input id="ov-s" type="number" step="any"></label>
+        <label>West lon <input id="ov-w" type="number" step="any"></label>
+        <label>North lat <input id="ov-n" type="number" step="any"></label>
+        <label>East lon <input id="ov-e" type="number" step="any"></label>
+      </div>
+      <p><button type="button" id="ov-fit" class="link-btn">Fit to what's on screen now</button> · opacity <input id="ov-opacity" type="range" min="0.1" max="1" step="0.05" value="0.7"></p>
+      <h3>Sections &amp; landmarks (GeoJSON)</h3>
+      <label>GeoJSON file <input id="ov-geo" type="file" accept=".geojson,.json,application/geo+json,application/json"></label>
+      <menu>
+        <button value="cancel" formnovalidate class="secondary">Close</button>
+        <button type="button" id="ov-clear" class="secondary">Remove overlay</button>
+        <button type="button" id="ov-apply">Apply</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script src="lib/markercluster/leaflet.markercluster.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

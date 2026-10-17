@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G2G update comment: Cemetery Map 0.8.0</title>
+<style>
+  :root { --ink:#1d2417; --muted:#5d6657; --line:#d9ddd3; --bg:#f6f7f4; --panel:#fff; --brand:#3f7a1c; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#e8ecdf; --muted:#a2ac98; --line:#343b2b; --bg:#14170f; --panel:#1e2318; --brand:#7fbf4d; } }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; padding:16px; }
+  button { background:var(--brand); color:#fff; border:0; border-radius:6px; padding:8px 14px; font:inherit; cursor:pointer; }
+  #state { margin-left:10px; color:var(--muted); font-size:14px; }
+  #post { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:4px 20px 12px; margin-top:12px; }
+  #post a { color:var(--brand); }
+  h3 { margin:1.2em 0 .3em; }
+  .note { color:var(--muted); font-size:14px; margin:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><button id="copy" type="button">Copy the comment (formatted)</button><span id="state" role="status"></span></p>
+  <p class="note">Post as a comment or answer under the Cemetery Map testers post, in the normal (WYSIWYG) editor. The comment is the white box below.</p>
+
+<div id="post">
+<p><strong>Update: Cemetery Map version 0.8.0.</strong> The big change is that cemeteries that have a plot map now show up in the app on their own, so there is no list to keep up to date.</p>
+
+<h3>What's new</h3>
+<ul>
+  <li><strong>Ready-made maps are found automatically.</strong> Open <em>Find a cemetery…</em> and the cemeteries that have a plot map are listed at the top under <em>Ready-made maps</em>. They are also marked <em>map ready</em> wherever they appear in the place lists. The list is built from <a href="https://www.wikitree.com/wiki/Category:Plotting_Pages">Category:Plotting_Pages</a>, so a newly categorised cemetery appears within a few minutes.</li>
+  <li><strong>The Publish window shows the category lines</strong> to add to your plot-map page.</li>
+</ul>
+
+<h3>How to get your cemetery on the list</h3>
+<p>Put <strong>every plot-map page</strong> for your cemetery (including one page per section, if you split it up) in <strong>two categories</strong>:</p>
+<ol>
+  <li><strong>the cemetery's own WikiTree category</strong>, which is how the map finds the page's data, and</li>
+  <li><a href="https://www.wikitree.com/wiki/Category:Plotting_Pages">Category:Plotting_Pages</a>, which is how the app finds out that the cemetery has a map.</li>
+</ol>
+<p>For example, on the Fairview plot-map page: <code>[[Category:Fairview_Presbyterian_Cemetery,_Raton,_New_Mexico]]</code> and <code>[[Category:Plotting_Pages]]</code>. If a cemetery shows its profiles but nothing on the map, a missing category on the plot-map page is the first thing to check.</p>
+
+<h3>Still looking for testers</h3>
+<ul>
+  <li>Do you have a Space page that holds <strong>WikiTree IDs, GPS coordinates and headstone images</strong>? Add the two categories, then open your cemetery in the app. Does it appear under Ready-made maps, and does the map look right?</li>
+  <li>Cemeteries with <strong>many burials on each monument</strong>, or burials without a WikiTree profile yet, are also very welcome.</li>
+</ul>
+
+<p>Open the app: <a href="https://apps.wikitree.com/apps/robinson27225/cemetery-map/index.html">Cemetery Map</a>. The full description is on <a href="https://www.wikitree.com/wiki/Space:Cemetery_Map">Space:Cemetery_Map</a>. When you report something, please include the version number from the map.</p>
+</div>
+</div>
+<script>
+  const post = document.getElementById('post'), state = document.getElementById('state');
+  document.getElementById('copy').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([post.innerHTML], { type: 'text/html' }),
+        'text/plain': new Blob([post.innerText], { type: 'text/plain' }),
+      })]);
+      state.textContent = 'Copied. Paste into the G2G editor.';
+    } catch {
+      const r = document.createRange(); r.selectNodeContents(post);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      state.textContent = 'Selected. Press Ctrl/⌘+C to copy, then paste into the G2G editor.';
+    }
+  });
+</script>
+</body>
+</html>

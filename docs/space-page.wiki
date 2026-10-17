@@ -1,0 +1,174 @@
+{{Image|file=Cemetery_Map.png|align=r|size=l|caption=Zoomed in on part of a cemetery. Each marker is a headstone; markers cluster until you zoom in.}}
+'''Cemetery Map''' is a [https://apps.wikitree.com/apps/ WikiTree App] for putting the people in a cemetery category on a map. Pick a cemetery, see who is buried where, add a headstone photo and a location for anyone who isn't on the map yet, and share the result as a table on a WikiTree Space page.
+
+'''Open the app:''' [https://apps.wikitree.com/apps/robinson27225/cemetery-map/index.html Cemetery Map]
+
+'''See an example:''' [https://apps.wikitree.com/apps/robinson27225/cemetery-map/index.html?cemetery=fairview-raton-nm Fairview Presbyterian Cemetery, Raton, New Mexico]
+
+'''Current version:''' 0.9.2 (17 October 2026). The version is shown at the bottom right of the map. See [[#Version history|Version history]] below.
+
+''This is a beta. I am looking for testers and for cemeteries with different layouts. See [[#Feedback|Feedback]] below.''
+
+== What it does ==
+* '''Finds any WikiTree cemetery.''' Search by the cemetery's name or town, or browse WikiTree's own cemetery categories from a continent down to a country, state and county, and open any cemetery in it. Cemeteries that already have a plot map are listed at the top as '''ready-made maps''' and marked "map ready" wherever they appear; that list builds itself from [[:Category:Plotting_Pages|Plotting Pages]] (see [[#Adding a plot map for your cemetery|Adding a plot map for your cemetery]]).
+* '''Lists everyone buried there.''' The people come from the [https://plus.wikitree.com WikiTree+] cemetery report for the cemetery's category, so profiles show up before anyone has mapped them.
+* '''Shows each headstone on satellite imagery,''' with the headstone photo, links to the WikiTree profile, Find a Grave and FamilySearch, and a directions link. People who share a headstone are grouped on one marker.
+* '''Helps you add or fix a location.''' Choose a profile, choose one of its WikiTree photos as the headstone photo, then place it by clicking the map, using your device's location, typing coordinates, reading the GPS from a photo file, or copying the spot from a relative on the same stone.
+* '''Keeps your edits safe until you share them,''' then prepares an updated table you paste onto a Space page.
+* '''Works with large cemeteries''' that keep one Space page per section (for example [[Space:Fairmont_Cemetery_Raton_NM_USA|Fairmont Cemetery, Raton, New Mexico]]): every Space page in the cemetery's category that has a table of locations is read.
+* '''Lists burials that have no WikiTree profile yet.''' A table row with a name (given names, surname, maiden name, birth and death) but no WikiTree ID is kept, shown on its headstone with everyone else who shares it, and can be given its WikiTree ID later with the '''Identify''' button. Use '''Show: Needs WikiTree ID''' to see them.
+* '''Shows unknown headstones too.''' Stones that are unreadable, or marked unknown, have no profile to point to. When a Space page lists them with their location and photo, they appear as grey markers with a link to the photo's page.
+* '''Leaves living people out.''' Rows marked "Still Living" are never listed or mapped.
+
+{{Image|file=Cemetery_Map-1.png|align=c|size=m|caption=An overview of a whole cemetery.}}
+
+== How to use it ==
+=== The screen ===
+The buttons at the top right open the main tools, and the links under the cemetery's name go to its WikiTree category, its Space page, the page or pages the locations come from, its Find a Grave cemetery and the WikiTree+ report.
+
+{{Image|file=Cemetery_Map-2.png|align=c|size=original|caption=Buttons on the right: Find a cemetery, Import data, Plot map overlay, Export & share.}}
+{{Image|file=Cemetery_Map-3.png|align=c|size=original|caption=Cemetery info: the links to the category, the Space page, the plot-map pages, Find a Grave and WikiTree+.}}
+
+=== Find a cemetery ===
+Click '''Find a cemetery…'''. Either type part of the cemetery's name or its town in the search box (start with the first word of the name or the town, and add more words to narrow the list, for example "Mount Calvary Raton"), or choose a continent, then a country, state and county, then the cemetery. Cemeteries that already have a plot map are listed at the top under '''Ready-made maps''' and say "map ready" wherever they appear. Any other cemetery category opens too, with everyone buried there listed under '''Needs a location'''.
+
+{{Image|file=Cemetery_Map-17.png|align=c|size=m|caption=Find a cemetery…}}
+{{Image|file=Cemetery_Map-18.png|align=c|size=m|caption=Type part of a name or a town to narrow the list.}}
+
+=== See who is buried where ===
+* Click a marker to see the headstone photo and everyone on that stone. A person's name opens their WikiTree profile. The details also have links to WikiTree and Find a Grave, a directions link and the coordinates.
+
+{{Image|file=Cemetery_Map-10.png|align=c|size=m|caption=Headstone detail: the photo, the people on the stone and their links.}}
+
+* The list on the left can be searched by name, WikiTree ID, Find a Grave memorial or FamilySearch ID. Use '''Show''' to see only the people who still need a location, and '''Colour by''' to change what the marker colours mean.
+
+{{Image|file=Cemetery_Map-13.png|align=c|size=original|caption=Search the list, then choose how to list, show and colour it.}}
+{{Image|file=Cemetery_Map-15.png|align=c|size=original|caption=Show: choose which people the list shows.}}
+{{Image|file=Cemetery_Map-16.png|align=c|size=original|caption=Colour by.}}
+
+* '''List by''' switches the list between people and monuments. The monument view has one row per headstone: its plot number or reference, how many are buried there, and who. A big cemetery opens in this view, and every monument is listed. A stone's label comes from the table's '''Plot''', '''Monument''' (the heading on the stone) or '''Reference''' column, and '''Label stones by''' chooses which one. The label also appears beside the pin when you zoom in.
+
+{{Image|file=Cemetery_Map-14.png|align=c|size=original|caption=List by: People or Monuments.}}
+
+* Each person in the list has up to two buttons: '''Map''' (they are on the map) or '''Locate''' (they still need a location, so this opens the editor to add one), and, for a burial that has no WikiTree profile yet, '''Identify''' (add its WikiTree ID). Clicking a row shows the person's details and headstone photo, even if they have no location yet. A name opens the person's WikiTree profile.
+* Below the list, '''Data check''' reports what looks odd in the data it read. Problems are grouped so a big cemetery doesn't produce a wall of text: rows with no coordinates are counted per Space page with a link to the page, a photo shared by people whose locations are more than 10 m apart links to the photo's page, and so does a marker that lies outside a reasonable area around the cemetery. Profiles in a table but not in the WikiTree category are just counted, with a link to the WikiTree+ report. Cemeteries that are still a work in progress, like Fairmont, will show a lot here, and that is expected.
+
+{{Image|file=Cemetery_Map-12.png|align=c|size=original|caption=The profile list and the data check.}}
+
+=== Add or fix a location ===
+# Pick a person from the list ('''Locate''' for someone not on the map yet, or '''Edit location or photo''' in a marker's details).
+# '''Headstone photo:''' choose one of the profile's WikiTree photos, or paste an image link or a WikiTree file name. The picture can be stored anywhere, including a Google Drive share link (shared with "anyone with the link"). (The list of the profile's own pictures needs the app to be open on wikitree.com.) To add a photo from your phone, see the G2G post about WikiTree's mobile image upload: [https://www.wikitree.com/g2g/1939498 Can you help test Mobile Image Upload?]
+# '''Location:''' click the map or drag the pin; or '''Use my location''' when you are at the grave; or type or paste the coordinates; or '''Read from a photo file…''' to take the GPS from a photo on your device (it is not uploaded anywhere); or '''Same headstone as…''' to copy a relative's spot and photo.
+# For a burial that has no WikiTree profile yet, click '''Identify''' and type its WikiTree ID in the '''WikiTree ID''' box once the person has a profile (a profile link works too). An ID already on the map is refused. The ID can be saved without a location. When you publish, the row becomes that profile.
+# If other people are on the same headstone, one tick applies it to all of them.
+# '''Save.''' It is saved in your browser and marked "unpublished".
+
+=== Share your changes ===
+Click '''Publish…'''. The app re-reads the Space page (when it can), lists exactly what changed, and gives you the updated table. Copy it, open the Space page editor with the link, and paste it over the existing table. WikiTree has no way for an app to write to a page, so this last step is yours. After you save the page and reload the map, the changes stop showing as unpublished.
+
+For a large cemetery whose profiles are listed on several Space pages, changes to people on the cemetery's own table page go into the table; changes to people on another page (such as an album) are listed so you can edit those rows on that page.
+
+=== Plot your own list ===
+'''Import data''' plots a list from a spreadsheet: paste the rows or choose a .tsv or .csv file. The columns it needs are '''Long''' and '''Lat''' (two separate columns) and either a '''WikiTree ID''' or names. It also understands FindAGrave, FamilySearch, an image link (anywhere), Given Names, Surname, Maiden, Birth, Death, Section, Plot, Monument, Reference and Notes (Notes is for anything else about the row, such as Veteran or Notable). Each person is one row. People who share a headstone get the same Long, Lat and image link on each of their rows, so two profiles on one stone are two rows with the same position and picture, and the app puts them on one marker. A link to a Google Photos album, a single Google Photos photo or a Drive folder works as the image link too: it is shown as an "Open the photo album" (or "Open the photo") link that opens Google's own viewer. Swapped latitude and longitude are noticed and fixed, and problems are listed in the Data check instead of being dropped.
+
+Example: three profiles on one headstone.
+
+{| class="wikitable"
+! WikiTree ID !! FindAGrave !! FamilySearch !! Long !! Lat !! Image link
+|-
+| Aragon-579 || 24170765 || LVTN-QHZ || -104.423636 || 36.904030 || https://www.wikitree.com/photo.php/9/99/Leal-658.jpg
+|-
+| Leal-658 || 85248715 || LVTZ-35X || -104.423636 || 36.904030 || https://www.wikitree.com/photo.php/9/99/Leal-658.jpg
+|-
+| Lopez-6743 || 24170766 || GX4F-WJ1 || -104.423636 || 36.904030 || https://www.wikitree.com/photo.php/9/99/Leal-658.jpg
+|}
+
+'''Starting from Find a Grave.''' The [https://github.com/wikitree/wikitree-browser-extension WikiTree Browser Extension] has a feature, '''Find A Grave Memorial Extractor''' by [[Jones-108375|Miyako Jones]], that reads a Find a Grave cemetery's memorial list and downloads it as a CSV file (Find a Grave ID, name, birth and death dates, memorial link, and the WikiTree profile when it finds a match). That gives you a ready list of everyone in a cemetery. Rearrange its columns to match the import, with the names split into '''Given Names''' and '''Surname''' (and '''Maiden''' for the name in brackets), keep '''Long''' and '''Lat''' as empty columns, and the people are listed as burials to locate, ready to be given their WikiTree IDs and positions. The columns are: WikiTree ID, FindAGrave, FamilySearch, Long, Lat, Given Names, Surname, Maiden, Birth, Death, Notes.
+
+A burial that has no WikiTree profile yet is a row with the WikiTree ID left empty and the name columns filled in; the last rows of [[Space:Fairview_Presbyterian_Cemetery_Raton_NM_USA_Plot_Map_Table|the Fairview table]] show this.
+
+{{Image|file=Cemetery_Map-20.png|align=c|size=m|caption=Import graves. When a cemetery is open, its details are filled in.}}
+
+=== Lay a plot map over the satellite view ===
+If a cemetery has a scanned plot map, '''Plot map overlay''' lays it over the imagery. Choose the image (or give its link), enter its south, west, north and east corner coordinates, or use '''Fit to what's on screen now''' and adjust, and set the opacity. You can also load a GeoJSON file of sections and landmarks. The image is placed as a rectangle; it can't be rotated yet.
+
+{{Image|file=Cemetery_Map-6.png|align=c|size=m|caption=Plot map overlay}}
+
+=== Export and share ===
+'''Export & share''' gives you the plot-map table to paste onto the Space page, the two categories the page must be in, and the permanent link (and its WikiTree markup) for the cemetery's Space page. Collapsed at the bottom are the cemetery file and index entry, which only the person who looks after the app's folder on the apps server can use.
+
+{{Image|file=Cemetery_Map-19.png|align=c|size=m|caption=Export & share: the table, the two categories, the permanent link.}}
+
+== Adding a plot map for your cemetery ==
+A cemetery's plot map is a table on a WikiTree Space page (see [[#Where the data lives|Where the data lives]]). For the map to find it, and for the cemetery to be listed as a ready-made map, '''every plot-map page must be in two categories''':
+# '''the cemetery's own WikiTree category''' (for example [[:Category:Fairview_Presbyterian_Cemetery,_Raton,_New_Mexico]]), which is how the map finds the page's data; and
+# [[:Category:Plotting_Pages]], which is how the app finds out which cemeteries have maps.
+
+Add both to the page, for example:
+<pre>[[Category:Fairview_Presbyterian_Cemetery,_Raton,_New_Mexico]]
+[[Category:Plotting_Pages]]</pre>
+The Publish window in the app shows the exact two lines for your cemetery. A cemetery with several plot-map pages (for example one per section) needs both categories on each of them. The list of ready-made maps is read from WikiTree when the app is open on wikitree.com and is remembered for ten minutes, so a newly categorised cemetery appears within a few minutes.
+
+== Where the data lives ==
+Each cemetery's locations are a table on a WikiTree Space page, so anyone who can edit WikiTree can fix a coordinate and everyone sees it. '''The page must be in the cemetery's WikiTree category''' (and in [[:Category:Plotting_Pages]]): that is how the map finds it. If a cemetery shows profiles but nothing on the map, check this first. The app's own table has these columns:
+
+{| class="wikitable"
+! WikiTree !! FindAGrave !! FamilySearch !! Long !! Lat !! Image link !! Given Names !! Surname !! Maiden !! Birth !! Death !! Notes
+|-
+| [[Apodaca-290]] || {{FindAGrave|24170737}} || {{FamilySearch|G9SJ-N7S}} || -104.422896 || 36.903378 || Headstone || || || || || ||
+|}
+
+The WikiTree column is left empty for a burial with no WikiTree profile yet; the name and date columns are optional. Optional '''Section''', '''Plot''', '''Row''', '''Monument''' and '''Reference''' columns can be added before Notes. The image link can point to a photo stored anywhere, including a Google Drive share link (the file must be shared with "anyone with the link").
+
+The example is [[Space:Fairview_Presbyterian_Cemetery_Raton_NM_USA_Plot_Map_Table|Fairview Presbyterian Cemetery's Plot Map Table]]. Album-style tables with columns such as WT-ID, Latitude, Longitude, Plot and Image are read too, and so are tables of headstones with no profile (for example File, Section, Longitude, Latitude and Image), which are shown as unknown headstones. Rows marked "Still Living" are skipped. A cemetery needs no registration: if its Space page has a table like this, the app finds it through the cemetery's category.
+
+Nothing is stored on a server. Your unpublished edits stay in your own browser.
+
+== Known limits ==
+* It is a beta and has had little testing outside my own desktop browser. Nothing has been tested on a phone yet.
+* Reading Space pages works only while the app is open on wikitree.com, and WikiTree's access checks can make a request fail now and then. When that happens the app falls back to a saved copy (if there is one) and says so. Reloading after visiting a WikiTree page usually fixes it.
+* Names and dates load from the WikiTree API, again only on wikitree.com.
+* Publishing is copy and paste.
+* The map uses Esri satellite imagery (default) or OpenStreetMap, so it needs an internet connection.
+
+== Feedback ==
+I would like to hear:
+* Anything that was confusing, broken or slow, especially with a large cemetery.
+* '''Cemeteries that have a Space page with a table of WikiTree ID, GPS coordinates and headstone image''': does the app read yours, and does it look right on the map?
+* Cemeteries whose Space pages use a different table layout.
+* Which feature you would use most.
+
+Please say which version you were using (it is shown at the bottom right of the map, like "Cemetery Map v0.9.2", and links to this page). Please leave a comment on this page or on the G2G post, or send a private message to the profile manager. Thank you for testing! Please try Publish on your own Space page rather than another project's.
+
+Please report problems with uploading photos from a phone on the mobile image upload post, not here: [https://www.wikitree.com/g2g/1939498 G2G: Can you help test Mobile Image Upload?]
+
+== Version history ==
+; 0.9.2 (17 October 2026)
+: Search by cemetery name uses a list that is rebuilt from WikiTree+ every week, so recently added cemeteries are found.
+; 0.9.1 (17 October 2026)
+: Find a cemetery lists every cemetery in a place, including ones added to WikiTree recently.
+; 0.9.0 (15 October 2026)
+: Optional '''Monument''' and '''Reference''' columns besides Plot, and '''Label stones by''' to choose which one names a stone. The monument list shows every monument. A Google Photos album link opens as "Open the photo album". Section, Plot and Row are kept when the table is published.
+; 0.8.6 (14 October 2026)
+: Fixed the word "null" showing in a headstone's details when it has no plot label.
+; 0.8.5 (14 October 2026)
+: FamilySearch IDs are written with the {{FamilySearch|…}} template as well.
+; 0.8.4 (14 October 2026)
+: The table the app writes uses the {{FindAGrave|…}} template for Find a Grave memorials.
+; 0.8.3 (14 October 2026)
+: Export & share shows the table, the two categories the page must be in, and the permanent link. The quick-share link is gone.
+; 0.8.2 (14 October 2026)
+: Import data suggests a title for a new plot-map page that includes the place (for example ''Fern Hill Cemetery Aberdeen WA USA Plot Map Table''), written the way you type it into WikiTree's new-page box. The example column headers match the table.
+; 0.8.1 (14 October 2026)
+: Import data starts with the open cemetery's details filled in. The Space page explains how to start a cemetery from a Find a Grave list made with the WikiTree Browser Extension.
+; 0.8.0 (13 October 2026)
+: Ready-made maps are found automatically: any cemetery whose plot-map pages are in [[:Category:Plotting_Pages]] (and its own cemetery category) is listed under Ready-made maps and marked "map ready". Publish shows both category lines to add.
+; 0.7.0 (13 October 2026)
+: Space pages with accents in their titles (like Cimetière de Sainte-Famille, Île d'Orléans, Québec) are now read. '''List by: Monuments''' shows one row per headstone, with "Show more" for long lists. The plot number or reference is shown beside the pin and in the details. Publish reminds you to add the cemetery's category to the plot-map page.
+; 0.6.1 (11 October 2026)
+: The WikiTree logo and "© WikiTree contributors" on the map. The version number is shown on the map. The links under the cemetery's name wrap instead of being cut off.
+; 0.6.0 (11 October 2026)
+: Burials without a WikiTree profile (names and dates in the table, '''Show: Needs WikiTree ID''', '''Identify'''). Clicking someone with no location shows their details and photo. Photos can be stored anywhere, including Google Drive share links. The Data check is grouped per Space page with links; living people are left out; unknown headstones are shown as grey markers. Large cemeteries read every Space page in their category.
+
+== Credits ==
+Cemetery lists and profile lists come from [https://plus.wikitree.com WikiTree+]. The idea builds on the [https://github.com/wikitree/wikitree-maps WikiTree Maps] app and on the Cemeterist Project's work to put every ancestor's final resting place on WikiTree. Satellite imagery © Esri and its data providers; map data © OpenStreetMap contributors; data courtesy of WikiTree (© WikiTree contributors).

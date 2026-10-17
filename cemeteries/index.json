@@ -1,0 +1,39 @@
+{
+  "cemeteries": [
+    {
+      "id": "fairview-raton-nm",
+      "name": "Fairview Presbyterian Cemetery",
+      "location": "Raton, Colfax County, New Mexico, USA",
+      "source": {
+        "type": "wikitree-space",
+        "page": "Space:Fairview_Presbyterian_Cemetery_Raton_NM_USA_Plot_Map_Table"
+      },
+      "wikitree": {
+        "space": "Space:Fairview_Presbyterian_Cemetery_Raton_NM_USA",
+        "category": "Category:Fairview_Presbyterian_Cemetery,_Raton,_New_Mexico"
+      }
+    },
+    {
+      "id": "fairmont-raton-nm",
+      "name": "Fairmont Cemetery",
+      "location": "Raton, Colfax County, New Mexico, USA",
+      "wikitree": {
+        "space": "Space:Fairmont_Cemetery_Raton_NM_USA",
+        "category": "Category:Fairmont_Cemetery,_Raton,_New_Mexico"
+      }
+    },
+    {
+      "id": "sainte-famille-qc",
+      "name": "Cimetière de Sainte-Famille",
+      "location": "Île d'Orléans, Québec, Canada",
+      "source": {
+        "type": "wikitree-space",
+        "page": "Space:Cimetière_de_Sainte-Famille,_Île_d'Orléans,_Québec_Plot_Map"
+      },
+      "wikitree": {
+        "space": "Space:Cimetière_de_Sainte-Famille,_Île_d'Orléans,_Québec",
+        "category": "Category:Cimetière_de_Sainte-Famille,_Île_d'Orléans,_Québec"
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "fairview-raton-nm",
+  "name": "Fairview Presbyterian Cemetery",
+  "location": "Raton, Colfax County, New Mexico, USA",
+  "wikitree": {
+    "space": "Space:Fairview_Presbyterian_Cemetery_Raton_NM_USA",
+    "category": "Category:Fairview_Presbyterian_Cemetery,_Raton,_New_Mexico"
+  },
+  "zoom": 19,
+  "source": {
+    "type": "wikitree-space",
+    "page": "Space:Fairview_Presbyterian_Cemetery_Raton_NM_USA_Plot_Map_Table"
+  }
+}

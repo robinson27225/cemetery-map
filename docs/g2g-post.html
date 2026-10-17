@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G2G post: Cemetery Map testers</title>
+<style>
+  :root { --ink:#1d2417; --muted:#5d6657; --line:#d9ddd3; --bg:#f6f7f4; --panel:#fff; --brand:#3f7a1c; }
+  @media (prefers-color-scheme: dark) { :root { --ink:#e8ecdf; --muted:#a2ac98; --line:#343b2b; --bg:#14170f; --panel:#1e2318; --brand:#7fbf4d; } }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; padding:16px; }
+  .meta { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 16px; margin-bottom:16px; }
+  .meta dt { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-top:8px; }
+  .meta dd { margin:2px 0 0; }
+  button { background:var(--brand); color:#fff; border:0; border-radius:6px; padding:8px 14px; font:inherit; cursor:pointer; }
+  #state { margin-left:10px; color:var(--muted); font-size:14px; }
+  #post { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:4px 20px 12px; margin-top:12px; }
+  #post img { max-width:100%; height:auto; border-radius:4px; }
+  #post a { color:var(--brand); }
+  h3 { margin:1.2em 0 .3em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <dl class="meta">
+    <dt>Title</dt>
+    <dd><b>Can you help test Cemetery Map, a WikiTree App for plotting headstones?</b></dd>
+    <dt>Category</dt>
+    <dd>The Tree House</dd>
+    <dt>Tags</dt>
+    <dd>WT_APPS, CEMETERIES, IMAGES, MOBILE</dd>
+    <dt>WikiTree profile</dt>
+    <dd>Space:Cemetery_Map</dd>
+  </dl>
+  <p><button id="copy" type="button">Copy the post (formatted)</button><span id="state" role="status"></span></p>
+  <p style="color:var(--muted);font-size:14px;margin:0">Paste into the G2G editor in the normal (WYSIWYG) view. The body is the white box below.</p>
+
+<div id="post">
+<p>Hi WikiTreers,</p>
+
+<p>WikiTree's new mobile image upload makes it easy to get a headstone photo onto a profile (it has its own testing post: <a href="https://www.wikitree.com/g2g/1939498">Can you help test Mobile Image Upload?</a>). The part that is still hard is recording <em>where</em> the grave is, so that the next visitor can find it. I have been building a WikiTree App for that, called <strong>Cemetery Map</strong>, and it is ready for testers.</p>
+
+<p><strong>Testers wanted, especially if you have a Space page that holds a WikiTree ID, GPS coordinates and a headstone image.</strong> That table is what the app reads and writes, so I most need to know whether it works with yours.</p>
+
+<h3>What it does</h3>
+<ul>
+  <li><strong>Find any cemetery.</strong> Search by the cemetery's name or town, or browse from a continent to a country, state and county, and open any WikiTree cemetery category.</li>
+  <li><strong>See everyone buried there.</strong> The people come from the WikiTree+ cemetery report, so profiles appear even before anyone has mapped them.</li>
+  <li><strong>See each headstone on a satellite map,</strong> with its photo and links to the WikiTree profile, Find a Grave and FamilySearch.</li>
+  <li><strong>Add or fix a location.</strong> Pick a profile and one of its WikiTree photos, then drop a pin on the map, use your device's location while you are at the grave, type coordinates, read the GPS from a photo file, or copy the spot from a relative on the same stone.</li>
+  <li><strong>Share it with everyone.</strong> The locations live in a table on a Space page. The app prepares the updated table, you paste it onto the page, and everybody sees it.</li>
+  <li><strong>Large cemeteries</strong> that keep one Space page per section (like Fairmont in Raton, New Mexico) are read too.</li>
+  <li><strong>Burials without a WikiTree profile yet</strong> are kept too: a table row with a name and dates but no WikiTree ID is shown on its headstone, can be found with <em>Show: Needs WikiTree ID</em>, and can be given its WikiTree ID later.</li>
+  <li><strong>Unknown headstones</strong> (unreadable, or marked unknown) are shown as grey markers when a Space page lists them with a location and a photo. <strong>Living people are always left out.</strong></li>
+</ul>
+
+<p><img src="https://www.wikitree.com/photo.php/9/9d/Cemetery_Map.png" alt="Cemetery Map zoomed in on part of a cemetery, with headstones as markers on a satellite view" width="636"></p>
+
+<h3>Try it</h3>
+<ul>
+  <li>The app: <a href="https://apps.wikitree.com/apps/robinson27225/cemetery-map/index.html">Cemetery Map</a></li>
+  <li>An example that is already mapped: <a href="https://apps.wikitree.com/apps/robinson27225/cemetery-map/index.html?cemetery=fairview-raton-nm">Fairview Presbyterian Cemetery, Raton, New Mexico</a></li>
+  <li>How it works, with screenshots: <a href="https://www.wikitree.com/wiki/Space:Cemetery_Map">Space:Cemetery_Map</a></li>
+</ul>
+
+<h3>What I would love testers to try</h3>
+<ol>
+  <li><strong>If you have a Space page with a table of WikiTree ID, GPS coordinates and a headstone image:</strong> open your cemetery in the app and check that your page is found and that the headstones land in the right place with the right photo. If it does not read your table, please tell me how your table is laid out.</li>
+  <li>Open <strong>Find a cemetery…</strong> and find a cemetery near you (or one you have photographed) by searching its name or town, or by browsing by place. Search works best when you start with the first word of the name or the town and add more words to narrow it, like "Mount Calvary Raton".</li>
+  <li>Look at who is on the map and who is listed under <strong>Needs a location</strong>.</li>
+  <li>Pick someone, choose their headstone photo, and place them on the map.</li>
+  <li>Click <strong>Publish…</strong> and see whether the steps make sense. Please paste onto a Space page of your own, not another project's page.</li>
+</ol>
+<p>Please leave the photo upload itself to the <a href="https://www.wikitree.com/g2g/1939498">mobile image upload post</a>; this app starts after the photo is on WikiTree.</p>
+
+<h3>Good to know</h3>
+<ul>
+  <li>Nothing is saved to WikiTree automatically. <strong>Publish</strong> only prepares text for you to paste, because apps cannot write to Space pages. Until then, your changes are stored only in your own browser.</li>
+  <li>Reading Space pages and names works while the app is open on wikitree.com, and WikiTree's access checks can occasionally refuse a request. If you see a message about a saved copy or "WikiTree did not return…", reloading after visiting a WikiTree page usually fixes it. Please tell me when it happens.</li>
+  <li>The <strong>Data check</strong> under the list groups what looks odd: rows without coordinates are counted per Space page, and photos shared by people who are far apart, or markers far from the cemetery, link to the photo's page. A cemetery that is still a work in progress will show a lot there.</li>
+  <li>It is a beta and I have only used it in a desktop browser, so it has not been tested on phones yet.</li>
+</ul>
+
+<h3>Feedback</h3>
+<p>When you report something, please include the version number shown at the bottom right of the map (like "Cemetery Map v0.6.1"). Please answer here, comment on the <a href="https://www.wikitree.com/wiki/Space:Cemetery_Map">Space page</a>, or send me a private message. I would especially like to hear what was confusing, what broke, what was slow with a big cemetery, and which cemeteries use a table layout the app does not understand yet.</p>
+
+<p>Thank you to WikiTree+ for the cemetery and profile data, to the Cemeterist Project for the cemetery categories, and to everyone who photographs headstones!</p>
+
+<p>Azure</p>
+</div>
+</div>
+<script>
+  const post = document.getElementById('post'), state = document.getElementById('state');
+  document.getElementById('copy').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([post.innerHTML], { type: 'text/html' }),
+        'text/plain': new Blob([post.innerText], { type: 'text/plain' }),
+      })]);
+      state.textContent = 'Copied. Paste into the G2G editor.';
+    } catch {
+      const r = document.createRange(); r.selectNodeContents(post);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      state.textContent = 'Selected. Press Ctrl/⌘+C to copy, then paste into the G2G editor.';
+    }
+  });
+</script>
+</body>
+</html>

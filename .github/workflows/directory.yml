@@ -1,0 +1,50 @@
+# Rebuilds the cemetery picker's search files (directory/) from WikiTree+'s published tables every week and publishes
+# them on GitHub Pages, where the app reads them (see DIRECTORY_BASES in js/config.js). Nothing to upload by hand.
+name: Rebuild the cemetery directory
+
+on:
+  schedule:
+    - cron: '17 4 * * 1' # Mondays, 04:17 UTC
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - tools/build-directory.mjs
+      - js/directory.js
+      - js/place-tree.js
+      - .github/workflows/directory.yml
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - run: npm run build:directory
+      - run: mkdir _site && mv directory _site/directory
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

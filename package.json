@@ -1,0 +1,12 @@
+{
+  "name": "cemetery-map",
+  "version": "0.9.2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "serve": "python3 -m http.server 8000",
+    "build:sample": "node tools/build-cemetery.mjs samples/fairview-raton.tsv cemeteries/fairview-raton-nm.json --enrich",
+    "build:directory": "node tools/build-directory.mjs"
+  }
+}
