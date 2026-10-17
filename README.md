@@ -265,6 +265,10 @@ docs/                        Space page markup, G2G posts, messages (not deploye
 lib/                         vendored Leaflet 1.9.4, Leaflet.markercluster 1.5.3 (BSD-2 / MIT)
 ```
 
+## License
+
+MIT, see [LICENSE](LICENSE). Leaflet and Leaflet.markercluster in `lib/` keep their own licenses (BSD-2 and MIT).
+
 ## Known limits
 
 - Beta; tested in a desktop browser only, not on phones.
