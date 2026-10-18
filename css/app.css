@@ -174,3 +174,6 @@ dialog.wide { width: min(680px, calc(100% - 24px)); }
 details.more { margin: 12px 0 0; border-top: 1px solid var(--line); padding-top: 8px; }
 details.more summary { cursor: pointer; font-weight: 600; }
 .detail .photos .album-link { padding: 14px; border: 1px dashed var(--line); border-radius: 6px; font-size: 14px; }
+.ov-dot { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: #e08a1e; color: #1d2417; font: 700 13px/1 system-ui, sans-serif; box-shadow: 0 0 0 5px rgba(224, 138, 30, .45); }
+.ov-dot.ov-unknown { width: 22px; height: 22px; margin: 9px; box-shadow: 0 0 0 4px rgba(224, 138, 30, .45); }
+.leaflet-popup-content button { margin-top: 6px; }

@@ -37,6 +37,10 @@ the saved snapshots, the WikiTree+ lists and the editing tools, not the live Spa
 
 ### Choosing a cemetery
 
+With no cemetery chosen, the map starts with every ready-made map as a dot showing its number of rows (counted from the
+plot-map pages on wikitree.com and remembered for a day; elsewhere the dot shows the cemetery's profile count). Dots that are close
+together merge and add up. Click a dot, then **Open this map**.
+
 **Find a cemetery…** has three ways in:
 
 - **Ready-made maps** at the top: every cemetery that has a plot map (see Plotting Pages below), marked **map ready** wherever it
@@ -254,6 +258,7 @@ js/spacetable.js             read plot-map tables and category pages from Space 
 js/source.js                 live-from-Space-pages or snapshot loader
 js/plus.js                   WikiTree+ cemetery roster (profiles + Find a Grave IDs)
 js/plotting.js               ready-made maps, found through Category:Plotting_Pages
+js/overview.js               the default view: ready-made maps as dots with row counts
 js/wikitree-api.js           names/dates and photo lists from the WikiTree API
 js/directory.js, js/live-directory.js, js/place-tree.js, js/picker.js
                              the cemetery picker: place hierarchy, live or from directory/

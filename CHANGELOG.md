@@ -4,6 +4,13 @@ Versions are `0.x` while the app is in beta. The current version is shown at the
 change `VERSION` and `RELEASED` in `js/config.js`, `version` in `package.json`, and add an entry here (a test checks the
 first two agree). Documentation-only changes (README, `docs/`) don't get a new version.
 
+## 0.10.0 (2026-10-18)
+- **The default view shows the ready-made maps as dots on the map.** Opening the app with no cemetery picked now shows every
+  cemetery that has a map (found through `Category:Plotting_Pages`, plus the hand-registered ones) as a dot with its number of
+  rows; dots that are close together merge and add up. Click a dot, then **Open this map**. The rows are counted from the plot-map
+  pages when the app is open on wikitree.com (a few seconds, remembered for a day); elsewhere the dot shows the cemetery's number of
+  profiles when it knows it. Locations come from WikiTree+'s cemetery table.
+
 ## 0.9.2 (2026-10-17)
 - **Name search stays current by itself.** The search files (`directory/`) are rebuilt every week by a GitHub Action from
   WikiTree+'s tables and published on GitHub Pages; the app reads them from there first, then from a copy beside the app if

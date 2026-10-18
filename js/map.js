@@ -62,6 +62,36 @@ export function createMap(el, { onSelect, onViewChange }) {
     disableClusteringAtZoom: 21, zoomToBoundsOnClick: true,
   }).addTo(map);
 
+  // The default view: a dot per ready-made cemetery with its number of rows; dots that are close together merge, adding up their rows.
+  const dotIcon = (count) => L.divIcon({
+    className: 'ov-wrap', iconSize: [40, 40],
+    html: `<div class="ov-dot${count == null ? ' ov-unknown' : ''}"><span>${count == null ? '' : count.toLocaleString()}</span></div>`,
+  });
+  const overview = L.markerClusterGroup({
+    maxClusterRadius: 50, showCoverageOnHover: false, zoomToBoundsOnClick: true,
+    iconCreateFunction: (c) => {
+      const kids = c.getAllChildMarkers();
+      return dotIcon(kids.some((k) => k.options.count == null) ? null : kids.reduce((s, k) => s + k.options.count, 0));
+    },
+  });
+  /** items: [{lat, lon, count|null (rows), profiles?, name, location, onOpen}] */
+  function setOverview(items, { fit = true } = {}) {
+    overview.clearLayers();
+    for (const it of items) {
+      const m = L.marker([it.lat, it.lon], { icon: dotIcon(it.count), count: it.count, title: it.name, keyboard: true });
+      const box = document.createElement('div');
+      const name = document.createElement('strong'); name.textContent = it.name;
+      const sub = document.createElement('div'); sub.className = 'muted'; sub.textContent = [it.location, it.count != null ? `${it.count.toLocaleString()} ${it.count === 1 ? 'row' : 'rows'}` : it.profiles ? `${it.profiles.toLocaleString()} ${it.profiles === 1 ? 'profile' : 'profiles'}` : ''].filter(Boolean).join(' · ');
+      const go = document.createElement('button'); go.type = 'button'; go.textContent = 'Open this map'; go.addEventListener('click', () => it.onOpen());
+      box.append(name, sub, go);
+      m.bindPopup(box);
+      overview.addLayer(m);
+    }
+    if (!map.hasLayer(overview)) overview.addTo(map);
+    if (fit && items.length) map.fitBounds(L.latLngBounds(items.map((i) => [i.lat, i.lon])).pad(0.3), { maxZoom: 9 });
+  }
+  const clearOverview = () => { overview.clearLayers(); if (map.hasLayer(overview)) map.removeLayer(overview); };
+
   let markers = new Map();
   let selected = null;
   let mode = 'people';
@@ -201,7 +231,7 @@ export function createMap(el, { onSelect, onViewChange }) {
 
   map.on('moveend', () => onViewChange?.());
   return {
-    map, setPlots, select, reveal, setMode, setOverlay, startPick, stopPick,
+    map, setPlots, setOverview, clearOverview, select, reveal, setMode, setOverlay, startPick, stopPick,
     setView: (lat, lon, zoom) => map.setView([lat, lon], zoom),
     bounds: () => map.getBounds(),
     locate: () => map.locate({ setView: true, maxZoom: 20 }),

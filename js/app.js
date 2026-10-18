@@ -11,7 +11,8 @@ import {
 import { isHttpUrl, wikiTreeSpaceUrl, wikiTreeUrl, hasProfile } from './links.js';
 import { hasDisplayName, isTableEntry } from './people.js';
 import { loadCemetery, onWikiTreeHost } from './source.js';
-import { fetchSpaceTable, fetchSpaceTables, isSpacePage, categoryUrl, spacePageUrl } from './spacetable.js';
+import { fetchSpaceTable, fetchSpaceTables, isSpacePage, categoryUrl, spacePageUrl, readCategoryPage } from './spacetable.js';
+import { overviewEntries, readCounts, saveCount, countRows } from './overview.js';
 import { fetchRoster, mergeRoster, isCategoryTitle, reportUrl } from './plus.js';
 import { suggestTableTitle, tablePageFromInput, tableTitleOf } from './table-title.js';
 import { loadEdits, saveEdits, withEdit, applyEdits, pruneEdits } from './edits.js';
@@ -76,6 +77,7 @@ function status(msg, ms = 4000) {
 // ---- loading a cemetery -----------------------------------------------------------
 function setCemetery(doc, { fit = true } = {}) {
   loadToken += 1;
+  mapApi.clearOverview();
   stopEdit();
   cem = validateDocument(doc);
   base = cem.graves;
@@ -727,6 +729,41 @@ $('ov-geo').addEventListener('change', async (e) => {
 });
 $('ov-clear').addEventListener('click', () => { delete cem.overlay; pendingImage = null; mapApi.setOverlay(null); dlgOv.close(); });
 
+// ---- the default view: ready-made maps as dots -------------------------------------------
+/** Every cemetery with a ready-made map, as a dot with its number of rows. Click one to open it. */
+async function showOverview() {
+  const found = await plotting.list().catch(() => []);
+  const entries = overviewEntries(index, found);
+  if (cem || !entries.length) return;
+  const counts = readCounts();
+  const items = [];
+  await Promise.all(entries.map(async (e) => {
+    let at = null;
+    const rec = await directory.lookup(e.category).catch(() => null);
+    if (rec?.[2] != null) at = [rec[2], rec[3]];
+    else if (onWikiTreeHost()) at = (await readCategoryPage(categoryTitle(e.category)).catch(() => ({}))).center || null;
+    if (!at) return;
+    items.push({
+      ...e, lat: at[0], lon: at[1], count: counts[e.category] ?? null, profiles: rec?.[1] || 0,
+      onOpen: () => (e.id ? openById(e.id) : openRecord(rec || [e.category, 0, null, null])).catch((err) => status(err.message, 6000)),
+    });
+  }));
+  if (cem || !items.length) return;
+  const draw = (fit) => { if (!cem) mapApi.setOverview(items.map((i) => ({ ...i })), { fit }); };
+  draw(true);
+  // Reading the plot-map pages is slow, so counts arrive one cemetery at a time and are remembered for a day.
+  if (!onWikiTreeHost()) return;
+  for (const it of items) {
+    if (cem) return;
+    if (it.count != null) continue;
+    const rows = await countRows(it);
+    if (rows == null) continue;
+    it.count = rows;
+    saveCount(it.category, rows);
+    draw(false);
+  }
+}
+
 // ---- boot ----------------------------------------------------------------------------
 (async function boot() {
   await loadIndex();
@@ -741,7 +778,10 @@ $('ov-clear').addEventListener('click', () => { delete cem.overlay; pendingImage
       const rec = await directory.lookup(plain);
       // Without the directory files we can still open it from the name alone; the WikiTree+ report supplies the rest.
       await openRecord(rec || [plain, 0, null, null]);
-    } else status('Use “Find a cemetery…” to pick one, or Import data to plot your own list.', 8000);
+    } else {
+      status('Use “Find a cemetery…” to pick one, or Import data to plot your own list.', 8000);
+      showOverview();
+    }
   } catch (err) {
     status(`Could not load the cemetery: ${err.message}`, 8000);
   }

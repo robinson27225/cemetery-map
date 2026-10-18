@@ -1097,3 +1097,29 @@ test('album links are told apart from picture links', () => {
   assert.ok(!isAlbumLink('https://drive.google.com/file/d/1AbCdEfGhIjKlMn/view'));
   assert.ok(!isAlbumLink('https://www.wikitree.com/photo.php/9/9d/Cemetery_Map.png'));
 });
+
+import { overviewEntries, readCounts, saveCount, countRows } from '../js/overview.js';
+test('overview entries: one per ready-made cemetery, with the pages that hold its rows', () => {
+  const registered = [{ id: 'f', name: 'Fairview', location: 'Raton', wikitree: { category: 'Category:Fairview_Cemetery,_Raton' }, source: { type: 'wikitree-space', page: 'Space:F_Plot_Map_Table' } }, { id: 'x', name: 'No category' }];
+  const discovered = [{ category: 'Fairview Cemetery, Raton', name: 'Fairview', location: 'Raton', pages: ['Space:F_Plot_Map_Table', 'Space:F_Album_1'] }, { category: 'Other Cemetery, Town', name: 'Other', location: 'Town', pages: ['Space:O_Plot'] }];
+  const e = overviewEntries(registered, discovered);
+  assert.deepEqual(e.map((x) => x.name), ['Fairview', 'Other']);
+  assert.deepEqual(e[0].pages, ['Space:F_Plot_Map_Table', 'Space:F_Album_1']);
+  assert.equal(e[0].id, 'f');
+  assert.equal(e[1].id, undefined);
+});
+test('row counts are remembered for a day', () => {
+  const store = new Map();
+  const storage = { getItem: (k) => store.get(k) ?? null, setItem: (k, v) => store.set(k, v) };
+  saveCount('A', 12, { storage, now: 1000 });
+  assert.deepEqual(readCounts({ storage, now: 2000 }), { A: 12 });
+  assert.deepEqual(readCounts({ storage, now: 1000 + 25 * 3600 * 1000 }), {});
+  assert.deepEqual(readCounts({ storage: { getItem() { throw new Error('no'); } } }), {});
+});
+test('countRows adds the rows of every page and gives up quietly when WikiTree blocks', async () => {
+  const table = (n, who) => `<table><tr><th>WikiTree</th><th>Long</th><th>Lat</th></tr>${Array.from({ length: n }, (_, i) => `<tr><td><a href="/wiki/${who}-${i + 1}">${who}-${i + 1}</a></td><td>-100</td><td>35</td></tr>`).join('')}</table>`;
+  const ok = async (u) => ({ status: 200, text: async () => (u.includes('Space:A') ? table(3, 'Smith') : table(2, 'Jones')) });
+  assert.equal(await countRows({ pages: ['Space:A', 'Space:B'] }, { fetchImpl: ok }), 5);
+  assert.equal(await countRows({ pages: [] }), null);
+  assert.equal(await countRows({ pages: ['Space:A'] }, { fetchImpl: async () => ({ status: 202, text: async () => '' }) }), null);
+});

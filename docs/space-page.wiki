@@ -5,7 +5,7 @@
 
 '''See an example:''' [https://apps.wikitree.com/apps/robinson27225/cemetery-map/index.html?cemetery=fairview-raton-nm Fairview Presbyterian Cemetery, Raton, New Mexico]
 
-'''Current version:''' 0.9.2 (17 October 2026). The version is shown at the bottom right of the map. See [[#Version history|Version history]] below.
+'''Current version:''' 0.10.0 (18 October 2026). The version is shown at the bottom right of the map. See [[#Version history|Version history]] below.
 
 ''This is a beta. I am looking for testers and for cemeteries with different layouts. See [[#Feedback|Feedback]] below.''
 
@@ -30,7 +30,9 @@ The buttons at the top right open the main tools, and the links under the cemete
 {{Image|file=Cemetery_Map-3.png|align=c|size=original|caption=Cemetery info: the links to the category, the Space page, the plot-map pages, Find a Grave and WikiTree+.}}
 
 === Find a cemetery ===
-Click '''Find a cemetery…'''. Either type part of the cemetery's name or its town in the search box (start with the first word of the name or the town, and add more words to narrow the list, for example "Mount Calvary Raton"), or choose a continent, then a country, state and county, then the cemetery. Cemeteries that already have a plot map are listed at the top under '''Ready-made maps''' and say "map ready" wherever they appear. Any other cemetery category opens too, with everyone buried there listed under '''Needs a location'''.
+When the app opens with no cemetery chosen, the map shows every cemetery that has a ready-made map as a dot with its number of rows; dots that are close together merge, and zooming in separates them. Click a dot, then '''Open this map'''.
+
+To find any other cemetery, click '''Find a cemetery…'''. Either type part of the cemetery's name or its town in the search box (start with the first word of the name or the town, and add more words to narrow the list, for example "Mount Calvary Raton"), or choose a continent, then a country, state and county, then the cemetery. Cemeteries that already have a plot map are listed at the top under '''Ready-made maps''' and say "map ready" wherever they appear. Any other cemetery category opens too, with everyone buried there listed under '''Needs a location'''.
 
 {{Image|file=Cemetery_Map-17.png|align=c|size=m|caption=Find a cemetery…}}
 {{Image|file=Cemetery_Map-18.png|align=c|size=m|caption=Type part of a name or a town to narrow the list.}}
@@ -138,11 +140,13 @@ I would like to hear:
 * Cemeteries whose Space pages use a different table layout.
 * Which feature you would use most.
 
-Please say which version you were using (it is shown at the bottom right of the map, like "Cemetery Map v0.9.2", and links to this page). Please leave a comment on this page or on the G2G post, or send a private message to the profile manager. Thank you for testing! Please try Publish on your own Space page rather than another project's.
+Please say which version you were using (it is shown at the bottom right of the map, like "Cemetery Map v0.10.0", and links to this page). Please leave a comment on this page or on the G2G post, or send a private message to the profile manager. Thank you for testing! Please try Publish on your own Space page rather than another project's.
 
 Please report problems with uploading photos from a phone on the mobile image upload post, not here: [https://www.wikitree.com/g2g/1939498 G2G: Can you help test Mobile Image Upload?]
 
 == Version history ==
+; 0.10.0 (18 October 2026)
+: The first screen shows every cemetery that has a ready-made map as a dot on the map with its number of rows. Click a dot to open that map.
 ; 0.9.2 (17 October 2026)
 : Search by cemetery name uses a list that is rebuilt from WikiTree+ every week, so recently added cemeteries are found.
 ; 0.9.1 (17 October 2026)
