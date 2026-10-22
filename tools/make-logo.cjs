@@ -51,11 +51,19 @@ function mark({ bracketW, pinStroke, pinW, big }) {
   ${pin(pinStroke, pinW)}`;
 }
 
+const logoBody = `<g transform="translate(43 4) scale(.92)">${mark({ bracketW: 34, pinStroke: '#fff', pinW: 10, big: false })}</g>
+  ${word('Cemetery', 540, 880, 190, C.dark)}
+  ${word('Map', 540, 1040, 190, C.amber)}`;
 const logo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" role="img" aria-label="Cemetery Map">
   <title>Cemetery Map</title>
-  <g transform="translate(43 4) scale(.92)">${mark({ bracketW: 34, pinStroke: '#fff', pinW: 10, big: false })}</g>
-  ${word('Cemetery', 540, 880, 190, C.dark)}
-  ${word('Map', 540, 1040, 190, C.amber)}
+  ${logoBody}
+</svg>
+`;
+// The same logo on a white disc, for round photo slots (the WikiTree Space page's primary photo); transparent outside the disc.
+const logoCircle = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080" role="img" aria-label="Cemetery Map">
+  <title>Cemetery Map</title>
+  <circle cx="540" cy="540" r="540" fill="#fff"/>
+  <g transform="translate(108 100) scale(.8)">${logoBody}</g>
 </svg>
 `;
 const icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Cemetery Map">
@@ -67,10 +75,11 @@ const icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width=
 fs.mkdirSync(out, { recursive: true });
 fs.writeFileSync(path.join(out, 'logo.svg'), logo);
 fs.writeFileSync(path.join(out, 'icon.svg'), icon);
-const jobs = [['logo', 'logo-1080', 1080], ['logo', 'logo-500', 500], ['logo', 'logo-500-white', 500, '#ffffff'], ['icon', 'icon-512', 512], ['icon', 'icon-96', 96], ['icon', 'icon-32', 32]];
+fs.writeFileSync(path.join(out, 'logo-circle.svg'), logoCircle);
+const jobs = [['logo', 'logo-1080', 1080], ['logo', 'logo-500', 500], ['logo', 'logo-500-white', 500, '#ffffff'], ['logo-circle', 'logo-circle-500', 500], ['icon', 'icon-512', 512], ['icon', 'icon-96', 96], ['icon', 'icon-32', 32]];
 (async () => {
   for (const [src, name, size, bg] of jobs) {
-    let img = sharp(path.join(out, `${src}.svg`), { density: Math.round(72 * size / (src === 'logo' ? 1080 : 96)) }).resize(size, size);
+    let img = sharp(path.join(out, `${src}.svg`), { density: Math.round(72 * size / (src === 'icon' ? 96 : 1080)) }).resize(size, size);
     if (bg) img = img.flatten({ background: bg });
     await img.png().toFile(path.join(out, `${name}.png`));
     console.log(`assets/${name}.png`);

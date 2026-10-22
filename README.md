@@ -276,7 +276,8 @@ lib/                         vendored Leaflet 1.9.4, Leaflet.markercluster 1.5.3
 
 `assets/` holds the logo and icon (`logo.svg`, `icon.svg` and PNGs), a companion to the Headstone Photo Tool's: the same palette,
 viewfinder corners, grass bar and pin, with a map of headstones. For the WikiTree apps page use `logo-1080.png` (1080 px square) and
-`icon-96.png`. The page tab uses `icon.svg` and `icon-32.png`. They are drawn by `tools/make-logo.cjs` (needs
+`icon-96.png`; for a round photo slot such as a Space page's primary photo, `logo-circle-500.png` (500 px, the logo on a white disc,
+transparent outside the circle). The page tab uses `icon.svg` and `icon-32.png`. They are drawn by `tools/make-logo.cjs` (needs
 `npm i --no-save opentype.js @fontsource/source-sans-3 sharp`; the wordmark is Source Sans 3 Bold, SIL Open Font License, as outlines).
 
 ## License
