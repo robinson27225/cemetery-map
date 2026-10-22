@@ -4,6 +4,9 @@ Versions are `0.x` while the app is in beta. The current version is shown at the
 change `VERSION` and `RELEASED` in `js/config.js`, `version` in `package.json`, and add an entry here (a test checks the
 first two agree). Documentation-only changes (README, `docs/`) don't get a new version.
 
+## 0.10.1 (2026-10-22)
+- New logo and icon, a companion to the Headstone Photo Tool's: the page tab, the header and the README now show them.
+
 ## 0.10.0 (2026-10-18)
 - **The default view shows the ready-made maps as dots on the map.** Opening the app with no cemetery picked now shows every
   cemetery that has a map (found through `Category:Plotting_Pages`, plus the hand-registered ones) as a dot with its number of

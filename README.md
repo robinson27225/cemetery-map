@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo-1080.png" alt="Cemetery Map logo" width="180"></p>
+
 # WikiTree Cemetery Plot Map (`cemetery-map`)
 
 A [WikiTree App](https://apps.wikitree.com/apps/) that puts the people buried in a cemetery on a map. Pick a cemetery, see
@@ -269,6 +271,13 @@ samples/, tests/, tools/     sample input, node:test suite, command-line builder
 docs/                        Space page markup, G2G posts, messages (not deployed)
 lib/                         vendored Leaflet 1.9.4, Leaflet.markercluster 1.5.3 (BSD-2 / MIT)
 ```
+
+## Logo
+
+`assets/` holds the logo and icon (`logo.svg`, `icon.svg` and PNGs), a companion to the Headstone Photo Tool's: the same palette,
+viewfinder corners, grass bar and pin, with a map of headstones. For the WikiTree apps page use `logo-1080.png` (1080 px square) and
+`icon-96.png`. The page tab uses `icon.svg` and `icon-32.png`. They are drawn by `tools/make-logo.cjs` (needs
+`npm i --no-save opentype.js @fontsource/source-sans-3 sharp`; the wordmark is Source Sans 3 Bold, SIL Open Font License, as outlines).
 
 ## License
 
