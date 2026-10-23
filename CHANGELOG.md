@@ -2,7 +2,7 @@
 
 Versions are `0.x` while the app is in beta. The current version is shown at the bottom right of the map. To release:
 change `VERSION` and `RELEASED` in `js/config.js`, `version` in `package.json`, and add an entry here (a test checks the
-first two agree). Documentation-only changes (README, `docs/`) don't get a new version.
+first two agree). Documentation-only changes (README) don't get a new version.
 
 ## 0.10.1 (2026-10-22)
 - New logo and icon, a companion to the Headstone Photo Tool's: the page tab, the header and the README now show them.
