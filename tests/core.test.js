@@ -1108,12 +1108,13 @@ test('overview entries: one per ready-made cemetery, with the pages that hold it
   assert.equal(e[0].id, 'f');
   assert.equal(e[1].id, undefined);
 });
-test('row counts are remembered for a day', () => {
+test('row counts are remembered, trusted for an hour and shown for a week', () => {
   const store = new Map();
   const storage = { getItem: (k) => store.get(k) ?? null, setItem: (k, v) => store.set(k, v) };
   saveCount('A', 12, { storage, now: 1000 });
-  assert.deepEqual(readCounts({ storage, now: 2000 }), { A: 12 });
-  assert.deepEqual(readCounts({ storage, now: 1000 + 25 * 3600 * 1000 }), {});
+  assert.deepEqual(readCounts({ storage, now: 2000 }), { A: { rows: 12, fresh: true } });
+  assert.deepEqual(readCounts({ storage, now: 1000 + 2 * 3600 * 1000 }), { A: { rows: 12, fresh: false } }, 'an old count is still shown, but not trusted');
+  assert.deepEqual(readCounts({ storage, now: 1000 + 8 * 24 * 3600 * 1000 }), {});
   assert.deepEqual(readCounts({ storage: { getItem() { throw new Error('no'); } } }), {});
 });
 test('countRows adds the rows of every page and gives up quietly when WikiTree blocks', async () => {
@@ -1121,5 +1122,7 @@ test('countRows adds the rows of every page and gives up quietly when WikiTree b
   const ok = async (u) => ({ status: 200, text: async () => (u.includes('Space:A') ? table(3, 'Smith') : table(2, 'Jones')) });
   assert.equal(await countRows({ pages: ['Space:A', 'Space:B'] }, { fetchImpl: ok }), 5);
   assert.equal(await countRows({ pages: [] }), null);
+  const flaky = async (u) => (u.includes('Space:A') ? { status: 429, text: async () => '' } : ok(u));
+  assert.equal(await countRows({ pages: ['Space:A', 'Space:B'] }, { fetchImpl: flaky }), null, 'a page that could not be read must not give a low count');
   assert.equal(await countRows({ pages: ['Space:A'] }, { fetchImpl: async () => ({ status: 202, text: async () => '' }) }), null);
 });

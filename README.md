@@ -40,7 +40,7 @@ the saved snapshots, the WikiTree+ lists and the editing tools, not the live Spa
 ### Choosing a cemetery
 
 With no cemetery chosen, the map starts with every ready-made map as a dot showing its number of rows (counted from the
-plot-map pages on wikitree.com and remembered for a day; elsewhere the dot shows the cemetery's profile count). Dots that are close
+plot-map pages on wikitree.com and trusted for an hour, refreshed as you browse; elsewhere the dot shows the cemetery's profile count). Dots that are close
 together merge and add up. Click a dot, then **Open this map**.
 
 **Find a cemetery…** has three ways in:

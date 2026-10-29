@@ -6,7 +6,8 @@ import { plainCategory } from './directory.js';
 import { fetchSpaceTables } from './spacetable.js';
 
 const KEY = 'wtcpm.rows.v1';
-const TTL_MS = 24 * 60 * 60 * 1000;
+const FRESH_MS = 60 * 60 * 1000;      // a count this young is used as it is
+const KEEP_MS = 7 * 24 * 60 * 60 * 1000; // an older one is still shown while a new one is read
 
 /** One entry per ready-made cemetery that has a category: {category (plain), name, location, id?, pages[]}. */
 export function overviewEntries(registered, discovered) {
@@ -18,11 +19,14 @@ export function overviewEntries(registered, discovered) {
   }));
 }
 
-/** Row counts remembered from earlier visits: {category: rows}, only those younger than a day. */
+/**
+ * Row counts remembered from earlier visits: {category: {rows, fresh}}. A count under an hour old is fresh; an older one (up to a
+ * week) is still shown while a new one is read, because tables change as people add rows.
+ */
 export function readCounts({ storage = globalThis.localStorage, now = Date.now() } = {}) {
   try {
     const all = JSON.parse(storage.getItem(KEY) || '{}');
-    return Object.fromEntries(Object.entries(all).filter(([, v]) => v && now - v.t < TTL_MS).map(([k, v]) => [k, v.rows]));
+    return Object.fromEntries(Object.entries(all).filter(([, v]) => v && now - v.t < KEEP_MS).map(([k, v]) => [k, { rows: v.rows, fresh: now - v.t < FRESH_MS }]));
   } catch { return {}; }
 }
 
@@ -37,7 +41,7 @@ export function saveCount(category, rows, { storage = globalThis.localStorage, n
 export async function countRows(entry, { fetchImpl = fetch } = {}) {
   if (!entry.pages.length) return null;
   try {
-    const { graves, markers } = await fetchSpaceTables(entry.pages, { fetchImpl, concurrency: 2 });
-    return graves.length + markers.length;
+    const { graves, markers, failed } = await fetchSpaceTables(entry.pages, { fetchImpl, concurrency: 2 });
+    return failed.length ? null : graves.length + markers.length; // a page that couldn't be read would give a count that is too low
   } catch { return null; }
 }

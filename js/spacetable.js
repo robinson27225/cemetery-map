@@ -147,7 +147,8 @@ export async function fetchSpaceTable(page, { fetchImpl = fetch } = {}) {
 /**
  * Read plot-map tables from several Space pages (explicit ones plus any Space page listed in the category),
  * a few at a time. Pages without such a table are skipped. Each grave remembers its page in `src`.
- * @returns {{graves:object[], markers:object[], issues:object[], pages:{page:string,count:number,markers:number}[], skipped:string[]}}
+ * `skipped` is every page that gave no rows; `failed` is those among them that could not be read (as opposed to having no table).
+ * @returns {{graves:object[], markers:object[], issues:object[], pages:{page:string,count:number,markers:number}[], skipped:string[], failed:string[]}}
  */
 export async function fetchSpaceTables(pages, { fetchImpl = fetch, concurrency = 3, onProgress } = {}) {
   const list = [...new Set(pages.filter(isSpacePage))];
@@ -161,7 +162,7 @@ export async function fetchSpaceTables(pages, { fetchImpl = fetch, concurrency =
     }
   }
   await Promise.all(Array.from({ length: Math.min(concurrency, list.length) }, worker));
-  const graves = [], markers = [], issues = [], used = [], skipped = [];
+  const graves = [], markers = [], issues = [], used = [], skipped = [], failed = [];
   const seen = new Map();
   const counts = new Map(); // `${page}|${kind}` -> aggregated issue
   const label = (page) => page.replace(/^Space:/, '').replace(/_/g, ' ');
@@ -173,7 +174,7 @@ export async function fetchSpaceTables(pages, { fetchImpl = fetch, concurrency =
   let blocked = 0;
   for (const page of list) { // keep the given order so the first page wins on duplicates
     const r = results.get(page);
-    if (r instanceof Error) { if (r.message === 'blocked') blocked += 1; skipped.push(page); continue; }
+    if (r instanceof Error) { if (r.message === 'blocked') blocked += 1; if (r.message !== 'no-table') failed.push(page); skipped.push(page); continue; }
     let count = 0;
     for (const g of r.graves) {
       if (seen.has(g.wt)) { tally(page, 'otherpage', 'info'); continue; }
@@ -205,7 +206,7 @@ export async function fetchSpaceTables(pages, { fetchImpl = fetch, concurrency =
     issues.push({ level: c.level, kind: c.kind, page: c.page, count: c.count, msg: `${label(c.page)}: ${c.count.toLocaleString()} ${c.count === 1 ? one : many}.`, links: [{ href: spacePageUrl(c.page), text: 'Open the page' }] });
   }
   if (!used.length && blocked) throw new Error('blocked');
-  return { graves, markers, issues, pages: used, skipped };
+  return { graves, markers, issues, pages: used, skipped, failed };
 }
 
 /**

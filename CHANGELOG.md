@@ -4,6 +4,12 @@ Versions are `0.x` while the app is in beta. The current version is shown at the
 change `VERSION` and `RELEASED` in `js/config.js`, `version` in `package.json`, and add an entry here (a test checks the
 first two agree). Documentation-only changes (README) don't get a new version.
 
+## 0.10.2 (2026-10-28)
+- **The dots' row counts stay current.** A count on the default view could be a day old, so a table that had grown (Grandview Cemetery,
+  Austin: 5 rows then, 32 now) still showed the old number. Counts are now trusted for an hour, an older one is shown while a new one
+  is read, and opening a cemetery updates its count straight away. A count is no longer remembered if one of the cemetery's pages
+  could not be read, since that would give a number that is too low.
+
 ## 0.10.1 (2026-10-22)
 - New logo and icon, a companion to the Headstone Photo Tool's: the page tab, the header and the README now show them.
 

@@ -184,6 +184,7 @@ async function openById(id, { fit = true } = {}) {
   const { doc, origin, note } = await loadCemetery(entry, { onProgress: progress, allowEmpty: true });
   startedEmpty = origin === 'empty';
   setCemetery(doc, { fit });
+  rememberRows(origin);
   $('cem-sub').title = note;
   status(note, origin === 'live' ? 3000 : 7000);
   history.replaceState(null, '', appUrl(location.href, { cemetery: id }));
@@ -206,10 +207,17 @@ async function openRecord(rec, { fit = true } = {}) {
   const { doc, origin, note } = await loadCemetery(entry, { allowEmpty: true, onProgress: progress });
   startedEmpty = origin === 'empty';
   setCemetery(doc, { fit });
+  rememberRows(origin);
   $('cem-sub').title = note;
   status(note, 8000);
   history.replaceState(null, '', appUrl(location.href, { category: category.replace(/ /g, '_') }));
   return origin;
+}
+
+/** Opening a cemetery reads its tables anyway, so keep that row count fresh for the dots on the default view. */
+function rememberRows(origin) {
+  const cat = cem?.wikitree?.category;
+  if (origin === 'live' && isCategoryTitle(cat)) saveCount(plainCategory(cat), base.length + (cem.markers?.length || 0));
 }
 
 async function loadIndex() {
@@ -744,7 +752,7 @@ async function showOverview() {
     else if (onWikiTreeHost()) at = (await readCategoryPage(categoryTitle(e.category)).catch(() => ({}))).center || null;
     if (!at) return;
     items.push({
-      ...e, lat: at[0], lon: at[1], count: counts[e.category] ?? null, profiles: rec?.[1] || 0,
+      ...e, lat: at[0], lon: at[1], count: counts[e.category]?.rows ?? null, fresh: !!counts[e.category]?.fresh, profiles: rec?.[1] || 0,
       onOpen: () => (e.id ? openById(e.id) : openRecord(rec || [e.category, 0, null, null])).catch((err) => status(err.message, 6000)),
     });
   }));
@@ -755,10 +763,11 @@ async function showOverview() {
   if (!onWikiTreeHost()) return;
   for (const it of items) {
     if (cem) return;
-    if (it.count != null) continue;
+    if (it.fresh) continue;
     const rows = await countRows(it);
     if (rows == null) continue;
     it.count = rows;
+    it.fresh = true;
     saveCount(it.category, rows);
     draw(false);
   }
