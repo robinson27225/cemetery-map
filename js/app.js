@@ -19,7 +19,7 @@ import { loadEdits, saveEdits, withEdit, applyEdits, pruneEdits } from './edits.
 import { createDirectory, plainCategory, categoryTitle, tablePageFor, nameOf, placeOf } from './directory.js';
 import { initPicker } from './picker.js';
 import { createPlottingRegistry, PLOTTING_CATEGORY } from './plotting.js';
-import { APP_URL, SPACE_URL, VERSION, RELEASED, DIRECTORY_BASES } from './config.js';
+import { APP_URL, SPACE_URL, GITHUB_URL, AUTHOR_ID, AUTHOR_URL, VERSION, RELEASED, DIRECTORY_BASES } from './config.js';
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -48,8 +48,11 @@ const mapApi = createMap($('map'), {
   onViewChange: () => {},
 });
 
-// The version sits in the map's attribution corner, so it is always visible and easy to quote in a bug report.
-mapApi.map.attributionControl.setPrefix(`<a href="${SPACE_URL}" target="_blank" rel="noopener noreferrer" title="Released ${RELEASED}. About Cemetery Map on WikiTree">Cemetery Map v${VERSION}</a> | <a href="https://leafletjs.com" target="_blank" rel="noopener noreferrer">Leaflet</a>`);
+// The map's corner has two lines. The first is about this app: its version (easy to quote in a bug report) linking to the
+// source code, who made it, and Help (the Space page). The second is the usual map credits.
+const link = (href, text, title = '') => `<a href="${href}" target="_blank" rel="noopener noreferrer"${title ? ` title="${title}"` : ''}>${text}</a>`;
+mapApi.map.attributionControl.setPrefix(
+  `<span class="attr-app">${link(GITHUB_URL, `Cemetery Map v${VERSION}`, `Released ${RELEASED}. Source code on GitHub`)} | Created by ${link(AUTHOR_URL, AUTHOR_ID)} | ${link(SPACE_URL, 'Help', 'About and how to use Cemetery Map, on WikiTree')}</span>${link('https://leafletjs.com', 'Leaflet')}`);
 document.documentElement.dataset.version = VERSION;
 
 // "my location" control (useful when standing in the cemetery)

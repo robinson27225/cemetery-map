@@ -940,10 +940,15 @@ test('a headstone is labelled by its Plot number, else the reference everyone on
   assert.deepEqual(plots.map((p) => p.label).sort(), ['', 'Fam-1']);
 });
 
-import { SPACE_URL } from '../js/config.js';
-test('the app links to its own WikiTree page', () => {
+import { SPACE_URL, GITHUB_URL, AUTHOR_URL } from '../js/config.js';
+test("the map's corner credits the app: source on GitHub, the author's profile, and Help on the Space page", () => {
   assert.equal(SPACE_URL, 'https://www.wikitree.com/wiki/Space:Cemetery_Map');
-  assert.ok(readFileSync(new URL('../js/app.js', import.meta.url), 'utf8').includes('href="${SPACE_URL}"'), 'the version in the map corner is a link to SPACE_URL');
+  assert.equal(GITHUB_URL, 'https://github.com/robinson27225/cemetery-map');
+  assert.equal(AUTHOR_URL, 'https://www.wikitree.com/wiki/Robinson-27225');
+  const app = readFileSync(new URL('../js/app.js', import.meta.url), 'utf8');
+  assert.ok(app.includes('link(GITHUB_URL, `Cemetery Map v${VERSION}`'), 'the version links to the source code');
+  assert.ok(app.includes('Created by ${link(AUTHOR_URL, AUTHOR_ID)}'), 'the author is credited with a link to their profile');
+  assert.ok(app.includes("link(SPACE_URL, 'Help'"), 'Help links to the Space page');
 });
 
 test('every ready-made map in cemeteries/index.json is well formed', () => {

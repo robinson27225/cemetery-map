@@ -178,3 +178,4 @@ details.more summary { cursor: pointer; font-weight: 600; }
 .ov-dot.ov-unknown { width: 22px; height: 22px; margin: 9px; box-shadow: 0 0 0 4px rgba(224, 138, 30, .45); }
 .leaflet-popup-content button { margin-top: 6px; }
 .bar .logo { width: 40px; height: 40px; border-radius: 9px; flex: none; }
+.leaflet-control-attribution .attr-app { display: block; }
