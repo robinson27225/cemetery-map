@@ -37,9 +37,26 @@ let issues = [];
 let selectedKey = null;
 let selectedWt = null;
 let editing = null;      // { wt, ctl } while the Set-location panel is open
-let wantedWt = params.get('wt');
+let wantedWt = params.get('wt');   // a person to open once the cemetery has loaded (from ?wt=, or ?fag= when they have no WikiTree profile)
+let wantedFag = wantedWt ? null : params.get('fag');
 let loadToken = 0;
 let startedEmpty = false; // no plot-map table exists for the open cemetery yet
+/** The cemetery part of the address (?cemetery= or ?category=), kept in `urlBase`; the person open in the details is added as &wt= (WikiTree ID), or &fag= (Find a Grave memorial) when they have no profile. */
+let urlBase = Object.fromEntries(['cemetery', 'category'].filter((k) => params.get(k)).map((k) => [k, params.get(k)]));
+const idParam = (g) => (g && hasProfile(g.wt) ? { wt: g.wt } : g?.fag ? { fag: String(g.fag) } : {});
+const personParam = () => {
+  if (!Object.keys(urlBase).length) return {};
+  const g = selectedWt && cem?.graves.find((x) => x.wt === selectedWt);
+  if (g) return idParam(g);
+  return wantedWt ? { wt: wantedWt } : wantedFag ? { fag: wantedFag } : {};
+};
+/** Point the address bar at the open cemetery, and at the open person if there is one (so the browser's own copy/bookmark works). */
+function syncUrl(base = urlBase) {
+  urlBase = base;
+  history.replaceState(null, '', appUrl(location.href, { ...urlBase, ...personParam() }));
+}
+/** A link to the published app that opens the cemetery and this person. */
+const personLink = (g) => appUrl(APP_URL, { ...urlBase, ...idParam(g) });
 const directory = createDirectory({ bases: DIRECTORY_BASES });
 const plotting = createPlottingRegistry();
 
@@ -167,15 +184,17 @@ async function loadRoster(token) {
 }
 
 function openWanted() {
-  if (!wantedWt || !cem) return;
-  const g = cem.graves.find((x) => x.wt.toLowerCase() === wantedWt.toLowerCase());
+  if ((!wantedWt && !wantedFag) || !cem) return;
+  const g = wantedWt
+    ? cem.graves.find((x) => x.wt.toLowerCase() === wantedWt.toLowerCase())
+    : cem.graves.find((x) => x.fag && String(x.fag) === wantedFag);
   const rosterPending = isCategoryTitle(cem.wikitree?.category) && !roster;
   if (!g) {
-    if (!rosterPending) { status(`${wantedWt} is not in this cemetery's list.`, 6000); wantedWt = null; }
+    if (!rosterPending) { status(`${wantedWt || `Find a Grave memorial ${wantedFag}`} is not in this cemetery's list.`, 6000); wantedWt = wantedFag = null; }
     return;
   }
   const wt = g.wt;
-  wantedWt = null;
+  wantedWt = wantedFag = null;
   if (g.lat != null) showPerson(wt); else startEdit(wt);
 }
 
@@ -190,7 +209,7 @@ async function openById(id, { fit = true } = {}) {
   rememberRows(origin);
   $('cem-sub').title = note;
   status(note, origin === 'live' ? 3000 : 7000);
-  history.replaceState(null, '', appUrl(location.href, { cemetery: id }));
+  syncUrl({ cemetery: id });
   return origin;
 }
 
@@ -213,7 +232,7 @@ async function openRecord(rec, { fit = true } = {}) {
   rememberRows(origin);
   $('cem-sub').title = note;
   status(note, 8000);
-  history.replaceState(null, '', appUrl(location.href, { category: category.replace(/ /g, '_') }));
+  syncUrl({ category: category.replace(/ /g, '_') });
   return origin;
 }
 
@@ -389,12 +408,14 @@ function openPlot(key, { fly = true } = {}) {
   const d = $('detail');
   const offset = () => (window.matchMedia('(max-width: 800px)').matches ? [0, d.offsetHeight / 2] : [d.offsetWidth / 2, 0]);
   renderDetail(d, plot, {
-    onClose: closeDetail,
+    onClose: dismissDetail,
     onCopy: (t) => navigator.clipboard?.writeText(t).then(() => status('Coordinates copied', 1500), () => status(t, 6000)),
     onLayout: () => { if (selectedKey === key) mapApi.reveal(key, offset()); },
     onEdit: startEdit,
+    onLink: copyLink,
   });
   document.body.classList.add('has-detail');
+  syncUrl();
   mapApi.select(key, { fly, offset: offset() });
   renderList();
 }
@@ -415,14 +436,22 @@ function openPerson(wt) {
   selectedKey = null;
   selectedWt = wt;
   mapApi.select(null);
-  renderDetail($('detail'), { lat: null, lon: null, photos: g.photo ? [g.photo] : [], members: [g] }, { onClose: closeDetail, onCopy: () => {}, onEdit: startEdit });
+  renderDetail($('detail'), { lat: null, lon: null, photos: g.photo ? [g.photo] : [], members: [g] }, { onClose: dismissDetail, onCopy: () => {}, onEdit: startEdit, onLink: copyLink });
   document.body.classList.add('has-detail');
+  syncUrl();
   renderList();
+}
+/** The user's own close (×): forget a person still waiting to be opened from the link. */
+function dismissDetail() { wantedWt = wantedFag = null; closeDetail(); }
+function copyLink(g) {
+  const url = personLink(g);
+  navigator.clipboard?.writeText(url).then(() => status('Link copied', 2000), () => status(url, 10000));
 }
 function closeDetail() {
   stopEdit();
   selectedKey = null;
   selectedWt = null;
+  syncUrl();
   document.body.classList.remove('has-detail');
   $('detail').hidden = true;
   mapApi.select(null);
@@ -443,6 +472,7 @@ function startEdit(wt, { focus = '' } = {}) {
   const plot = plots.find((p) => p.members.some((m) => m.wt === wt));
   selectedKey = null;
   selectedWt = null;
+  syncUrl();
   mapApi.select(null);
   document.body.classList.add('has-detail');
   document.body.classList.remove('side-open');
@@ -643,7 +673,7 @@ $('form-import').addEventListener('submit', (e) => {
     ...(isSpacePage(tablePage) ? { source: { type: 'wikitree-space', page: tablePage } } : {}),
     center: c ? [c.lat, c.lon] : undefined, zoom: 19, graves, _issues: parseIssues,
   });
-  history.replaceState(null, '', appUrl(location.href, {}));
+  syncUrl({});
   status(`Plotted ${graves.filter((g) => g.lat != null).length} of ${graves.length} graves.`);
 });
 

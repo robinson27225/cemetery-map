@@ -22,7 +22,7 @@ export { displayName, lifeSpan };
 /** Where a burial is, as the table says: section, plot, row, monument heading and reference. */
 const where = (g) => [g.section && `Section ${g.section}`, g.plot && `Plot ${g.plot}`, g.row && `Row ${g.row}`, g.monument && `Monument ${g.monument}`, g.reference && `Reference ${g.reference}`].filter(Boolean).join(', ');
 
-export function renderDetail(root, plot, { onClose, onCopy, onLayout, onEdit }) {
+export function renderDetail(root, plot, { onClose, onCopy, onLayout, onEdit, onLink }) {
   root.replaceChildren();
   const people = plot.members.filter((m) => !m.marker);
   const unknown = plot.members.filter((m) => m.marker);
@@ -68,6 +68,7 @@ export function renderDetail(root, plot, { onClose, onCopy, onLayout, onEdit }) 
       h('div', { class: 'person-actions' },
         hasProfile(g.wt) ? null : h('button', { type: 'button', class: 'link-btn', onclick: () => onEdit?.(g.wt, { focus: 'id' }) }, 'Identify: add WikiTree ID'),
         h('button', { type: 'button', class: 'link-btn', onclick: () => onEdit?.(g.wt) }, hasProfile(g.wt) ? 'Edit location or photo' : 'Locate: add location or photo'),
+        onLink && (hasProfile(g.wt) || g.fag) ? h('button', { type: 'button', class: 'link-btn', title: `Copy a link that opens ${displayName(g)} in Cemetery Map`, onclick: () => onLink(g) }, 'Copy link') : null,
         g._edited ? h('span', { class: 'badge', title: 'Saved on this device only. Publish it to share.' }, 'unpublished change') : null),
     ));
   }

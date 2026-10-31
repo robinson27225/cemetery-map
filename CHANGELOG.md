@@ -4,6 +4,12 @@ Versions are `0.x` while the app is in beta. The current version is shown at the
 change `VERSION` and `RELEASED` in `js/config.js`, `version` in `package.json`, and add an entry here (a test checks the
 first two agree). Documentation-only changes (README) don't get a new version.
 
+## 0.10.4 (2026-10-31)
+- **A link to the person who is open.** Opening someone's details now adds them to the address bar (`&wt=Jones-67676`), so the browser's
+  own copy or bookmark gives a link that opens the cemetery with that headstone selected. The details also have a **Copy link**
+  button, which always gives the published app's address. Someone with no WikiTree profile is identified by their Find a Grave
+  memorial (`&fag=…`) instead; a burial with neither has no link. Closing the details takes the person out of the address again.
+
 ## 0.10.3 (2026-10-30)
 - The map's corner now has two lines. The first is about the app: **Cemetery Map v…** (links to the source code on GitHub),
   **Created by Robinson-27225** (links to the author's WikiTree profile) and **Help** (links to the Space page). The second is the
