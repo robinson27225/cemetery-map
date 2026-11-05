@@ -4,6 +4,10 @@ Versions are `0.x` while the app is in beta. The current version is shown at the
 change `VERSION` and `RELEASED` in `js/config.js`, `version` in `package.json`, and add an entry here (a test checks the
 first two agree). Documentation-only changes (README) don't get a new version.
 
+## 0.10.5 (2026-11-05)
+- **A cemetery always opens as a list of people.** A big cemetery used to open as the monument list; the **List by** menu still
+  switches to it.
+
 ## 0.10.4 (2026-10-31)
 - **A link to the person who is open.** Opening someone's details now adds them to the address bar (`&wt=Jones-67676`), so the browser's
   own copy or bookmark gives a link that opens the cemetery with that headstone selected. The details also have a **Copy link**

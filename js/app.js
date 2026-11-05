@@ -114,8 +114,7 @@ function setCemetery(doc, { fit = true } = {}) {
   listLimit = LIST_PAGE;
   $('label-by').value = loadLabelBy(cem.id);
   recompute({ fit });
-  // A big cemetery reads better one monument at a time than as a thousand names.
-  $('list-by').value = base.length > LIST_PAGE && plots.some((p) => p.members.some((m) => !m.marker)) ? 'monuments' : 'people';
+  $('list-by').value = 'people'; // always opens as the list of people; "List by" offers the monument list
   renderList();
   if (!base.some((g) => g.lat != null) && Array.isArray(cem.center)) mapApi.setView(cem.center[0], cem.center[1], cem.zoom || 18);
   loadRoster(loadToken);

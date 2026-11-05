@@ -76,8 +76,8 @@ Source to "GitHub Actions". GitHub Pages answers any website, so the app can rea
 - Click a marker for the headstone photo and everyone on that stone. A name opens the person's WikiTree profile. Links to WikiTree,
   Find a Grave and FamilySearch, a directions link and the coordinates are in the details. People who share a headstone share one marker.
 - **List by** switches between people and **monuments**. The monument view has one row per headstone: its plot number or reference,
-  how many are buried there, and who. Every monument is listed. Cemeteries of more than 600 people open in this view; the people
-  list shows 600 at a time with a "Show more" button.
+  how many are buried there, and who. Every monument is listed. A cemetery always opens as the list of people, which
+  shows 600 at a time with a "Show more" button.
 - A headstone's label is its **Plot**, **Monument** (the heading on the stone) or **Reference** (a trace back to another database)
   column. **Label stones by** chooses which; the default tries them in that order, and the choice is remembered per cemetery in
   the browser. Only when a table has none of those columns, the short value everyone on a stone shares in **Notes** (like
